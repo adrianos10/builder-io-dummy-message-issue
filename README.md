@@ -1,36 +1,34 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## Running the application
 
-First, run the development server:
+First, install the dependencies:
+
+```bash
+npm install
+```
+
+Then, add provided Builder.io public API key in `.env` or create a new file based on it called `.env.local`.
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Description
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This is a Next.js application using App Router and the latest version of Builder.io React SDK v2 (@builder.io/sdk-react).
 
-## Learn More
+We have a single catch-all route defined here [app/[[...slug]]/page.tsx](app/[[...slug]]/page.tsx), which is responsible for dynamically rendering Builder.io page model entries (based on https://www.builder.io/c/docs/integrating-builder-pages#add-a-builder-component-to-your-app).
 
-To learn more about Next.js, take a look at the following resources:
+We have registered a single `LiveChat` component in Builder.io - [components/liveChat.tsx](components/liveChat.tsx).
+There is a section model defined inside the root layout of the application, which is a box for rendering the custom `LiveChat` component (defined here - [app/layout.tsx](app/layout.tsx)), on all of the application routes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Issue reproduction
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Go to http://localhost:3000/live-chat-demo, you should see 404 page.
+2. Go to https://builder.io/content/96c5e997c2c44393b619595da1407daa/edit?activeDesignerTab=0&activeLocale=Default, to see the preview mode of `live-chat-demo` section model.
+3. Instead of 404, the application will properly display the contents of the section model in a preview mode, but you will see that there is a dummy Builder.io integration message "Hello! ...".
