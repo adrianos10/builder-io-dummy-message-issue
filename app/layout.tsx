@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Content, fetchOneEntry } from "@builder.io/sdk-react";
+import { LiveChatComponent } from "@/components/liveChat";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,7 +31,26 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <LiveChat />
       </body>
     </html>
+  );
+}
+
+const builderApiKey = process.env.NEXT_PUBLIC_BUILDER_API_KEY ?? "";
+
+async function LiveChat() {
+  const content = await fetchOneEntry({
+    apiKey: builderApiKey,
+    model: "live-chat-demo",
+  });
+
+  return (
+    <Content
+      apiKey={process.env.NEXT_PUBLIC_BUILDER_API_KEY ?? ""}
+      content={content}
+      model="live-chat-demo"
+      customComponents={[LiveChatComponent]}
+    />
   );
 }
